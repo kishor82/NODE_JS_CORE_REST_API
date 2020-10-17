@@ -33,9 +33,18 @@ function update(id, product) {
   });
 }
 
+function remove(id) {
+  return new Promise((resolve, reject) => {
+    const updatedproducts = products.filter((p) => p.id !== id);
+    writeDataToFile("./data/products.json", updatedproducts);
+    resolve();
+  });
+}
+
 module.exports = Object.freeze({
   findAll,
   findById,
   create,
   update,
+  remove,
 });
