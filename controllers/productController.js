@@ -1,0 +1,74 @@
+const Product = require("../models/productModel");
+
+/**
+ * @desc Gets All Products
+ * @route GET /api/products
+ * @param {*} req
+ * @param {*} res
+ */
+async function getProducts(req, res) {
+  try {
+    const products = await Product.findAll();
+
+    /**
+     * This is alternative to below code.
+     * res.statusCode = 200;
+     * res.setHeader("Content-Type", "text/html");
+     * res.write("<h1>Hello World</h1>");
+     */
+    res.writeHead(200, { "Content-Type": "application/json" });
+    /**
+     * This is alternative to below code.
+     * res.write(JSON.stringify(products));
+     * res.end();
+     */
+    res.end(JSON.stringify(products));
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+/**
+ * @desc Gets Single Product
+ * @route GET /api/product/:id
+ * @param {*} req
+ * @param {*} res
+ * @param {*} id
+ */
+async function getProduct(req, res, id) {
+  try {
+    const product = await Product.findById(id);
+
+    if (!product) {
+      res.writeHead(404, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ message: "Product Not Found" }));
+    } else {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(product));
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+/**
+ * @desc Create a Product
+ * @route POST /api/products
+ * @param {*} req
+ * @param {*} res
+ */
+async function createProduct(req, res) {
+  try {
+    const products = await Product.findAll();
+    res.writeHead(200, { "Content-Type": "application/json" });
+
+    res.end(JSON.stringify(products));
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+module.exports = Object.freeze({
+  getProducts,
+  getProduct,
+});
